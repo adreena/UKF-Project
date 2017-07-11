@@ -1,81 +1,210 @@
 # Unscented Kalman Filter Project Starter Code
-Self-Driving Car Engineer Nanodegree Program
 
 In this project utilize an Unscented Kalman Filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower that the tolerance outlined in the project reburic. 
 
+
+The goals / steps of this project are the following:
+
+* Step 1: Initializing kalman filter matrices and vectors 
+* Step 2: Predicting x state vector (px, py, vx, vy) and P state covariance matrix 
+* Step 3: Updating predicted states based on sensor measurements
+* Step 4: Calculating rmse
+* step 5: plotting NIS values 
+
+Goals:
+* Utilizing kalman filter to estimate the state of a moving object with lidar and radar mesaurments
+* Achieving low RMSE values  
+* NIS be between 0.35 and 7.81 in at least 80% of all radar update steps
+
+### Build & Run Instruction
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
-This repository includes two files that can be used to set up and intall [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO. Please see [this concept in the classroom](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/16cf4a78-4fc7-49e1-8621-3450ca938b77) for the required version and installation scripts.
+This repository includes two files that can be used to set up and install [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO. 
 
-Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
-
-1. mkdir build
-2. cd build
-3. cmake ..
-4. make
-5. ./UnscentedKF
-
-Note that the programs that need to be written to accomplish the project are src/ukf.cpp, src/ukf.h, tools.cpp, and tools.h
-
-The program main.cpp has already been filled out, but feel free to modify it.
-
-Here is the main protcol that main.cpp uses for uWebSocketIO in communicating with the simulator.
-
-
-INPUT: values provided by the simulator to the c++ program
-
-["sensor_measurement"] => the measurment that the simulator observed (either lidar or radar)
-
-
-OUTPUT: values provided by the c++ program to the simulator
-
-["estimate_x"] <= kalman filter estimated position x
-["estimate_y"] <= kalman filter estimated position y
-["rmse_x"]
-["rmse_y"]
-["rmse_vx"]
-["rmse_vy"]
-
----
-
-## Other Important Dependencies
-
-* cmake >= v3.5
-* make >= v4.1
-* gcc/g++ >= v5.4
-
-## Basic Build Instructions
+Once the install for uWebSocketIO is complete, the main program can be built and run by doing the following from the project top directory.
 
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./UnscentedKF path/to/input.txt path/to/output.txt`. You can find
-   some sample inputs in 'data/'.
-    - eg. `./UnscentedKF ../data/obj_pose-laser-radar-synthetic-input.txt`
+3. Compile: `cmake .. && make` 
+   * On windows, you may need to run: `cmake .. -G "Unix Makefiles" && make`
+4. Run it: `./UnscentedKF `
 
-## Editor Settings
+### Report
 
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
+#### Data 1
 
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
+RMSE Total:
+<table style="width:100%">
+    <tr>
+        <td> UKF </td>
+        <td> EKF </td>
+    </tr>
+    <tr>
+        <tr>
+            <td>px </td>
+            <td>py </td>
+            <td>vx </td>
+            <td>vy </td>
+        </tr>
+        <tr>
+            <td>0.0973</td>
+            <td>0.0855</td>
+            <td>0.4513</td>
+            <td>0.4399</td>
+        </tr>
+    </tr>
+    <tr>
+        <tr>
+            <td>px </td>
+            <td>py </td>
+            <td>vx </td>
+            <td>vy </td>
+        </tr>
+        <tr>
+            <td>0.0973</td>
+            <td>0.0855</td>
+            <td>0.4513</td>
+            <td>0.4399</td>
+        </tr>
+    </tr>
+</table>
 
-## Code Style
+RMSE Laser Only:
+<table style="width:100%">
+  <tr>
+    <td>px </td>
+    <td>py </td>
+    <td>vx </td>
+    <td>vy </td>
+  </tr>
+  <tr>
+    <td>0.1222</td>
+    <td>0.0984</td>
+    <td>0.5825</td>
+    <td>0.4567</td>
+  </tr>
+</table>
 
-Please stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html) as much as possible.
+RMSE Radar Only:
+<table style="width:100%">
+  <tr>
+    <td>px </td>
+    <td>py </td>
+    <td>vx </td>
+    <td>vy </td>
+  </tr>
+  <tr>
+    <td>0.1909</td>
+    <td>0.2799</td>
+    <td>0.4534</td>
+    <td>0.6776</td>
+  </tr>
+</table>
 
-## Generating Additional Data
+<table style="width:100%">
+  <tr>
+    <td>RMSE Total</td>
+    <td>RMSE Laser only</td>
+    <td>RMSE Radar only</td>
+  </tr>
+  <tr>
+    <td><img src="./dataset1/rmse_total.png" width="350" height="200"/></td>
+    <td><img src="./dataset1/rmse_laser.png" width="350" height="200"/></td>
+    <td><img src="./dataset1/rmse_radar.png" width="350" height="200"/></td>
+  </tr>
+  <tr>
+<table>
 
-This is optional!
+<table style="width:100%">
+  <tr>
+    <td>Simulator Total</td>
+    <td>Simulator Laser only</td>
+    <td>Simulator Radar only</td>
+  </tr>
+  <tr>
+    <td><img src="./dataset1/sim_total.png" width="350" height="200"/></td>
+    <td><img src="./dataset1/sim_laser.png" width="350" height="200"/></td>
+    <td><img src="./dataset1/sim_radar.png" width="350" height="200"/></td>
+  </tr>
+  <tr>
+<table>
 
-If you'd like to generate your own radar and lidar data, see the
-[utilities repo](https://github.com/udacity/CarND-Mercedes-SF-Utilities) for
-Matlab scripts that can generate additional data.
+#### Data 2
 
-## Project Instructions and Rubric
+RMSE Total:
+<table style="width:100%">
+  <tr>
+    <td>px </td>
+    <td>py </td>
+    <td>vx </td>
+    <td>vy </td>
+  </tr>
+  <tr>
+    <td>0.0726</td>
+    <td>0.0965</td>
+    <td>0.4216</td>
+    <td>0.4932</td>
+  </tr>
+</table>
 
-This information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/c3eb3583-17b2-4d83-abf7-d852ae1b9fff/concepts/f437b8b0-f2d8-43b0-9662-72ac4e4029c1)
-for instructions and the project rubric.
+RMSE Laser Only:
+<table style="width:100%">
+  <tr>
+    <td>px </td>
+    <td>py </td>
+    <td>vx </td>
+    <td>vy </td>
+  </tr>
+  <tr>
+    <td>0.0961</td>
+    <td>0.1003</td>
+    <td>0.5418</td>
+    <td>0.4640</td>
+  </tr>
+</table>
+
+RMSE Radar Only:
+<table style="width:100%">
+  <tr>
+    <td>px </td>
+    <td>py </td>
+    <td>vx </td>
+    <td>vy </td>
+  </tr>
+  <tr>
+    <td>0.2256</td>
+    <td>0.2959</td>
+    <td>0.5879</td>
+    <td>0.7966</td>
+  </tr>
+</table>
+
+<table style="width:100%">
+  <tr>
+    <td>RMSE Total</td>
+    <td>RMSE Laser only</td>
+    <td>RMSE Radar only</td>
+  </tr>
+  <tr>
+    <td><img src="./dataset2/rmse_total.png" width="350" height="200"/></td>
+    <td><img src="./dataset2/rmse_laser.png" width="350" height="200"/></td>
+    <td><img src="./dataset2/rmse_radar.png" width="350" height="200"/></td>
+  </tr>
+  <tr>
+<table>
+
+<table style="width:100%">
+  <tr>
+    <td>Simulator Total</td>
+    <td>Simulator Laser only</td>
+    <td>Simulator Radar only</td>
+  </tr>
+  <tr>
+    <td><img src="./dataset2/sim_total.png" width="350" height="200"/></td>
+    <td><img src="./dataset2/sim_laser.png" width="350" height="200"/></td>
+    <td><img src="./dataset2/sim_radar.png" width="350" height="200"/></td>
+  </tr>
+  <tr>
+<table>
+
+According to the plots and avg RMSE values, considering both sensor information obviously generates more accurate results. However by eliminating 1 sensor which results in missing almost half of the data from simulator, (total number of data ~440, laser-only:~220 , radar-only:~220) LASER tends to be more precise than RADAR on both datasets.
