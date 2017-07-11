@@ -233,7 +233,7 @@ RMSE Radar Only:
 <table style="width:100%">
   <tr>
     <td>Simulator Both</td>
-    <td>Simulator Laser only (81.92%)</td>
+    <td>Simulator Laser only</td>
     <td>Simulator Radar only</td>
   </tr>
   <tr>
@@ -258,4 +258,22 @@ RMSE Radar Only:
   <tr>
 <table>
 
-According to the plots and avg RMSE values, considering both sensor information obviously generates more accurate results. However by eliminating 1 sensor which results in missing almost half of the data from simulator, (total number of data ~440, laser-only:~220 , radar-only:~220) LASER tends to be more precise than RADAR on both datasets.
+#### Processing noises used in this project:
+
+<table style="width:100%">
+  <tr>
+    <td>longitudinal acceleration</td>
+    <td>yaw acceleration</td>
+  </tr>
+  <tr>
+    <td>1.0</td>
+    <td>0.15</td>
+  </tr>
+  <tr>
+<table>
+
+#### UKF Results:
+UKF achieved approximately better results in dataset1 (~0.1) comparing to EKF, however results are pretty much similar to EKF in dataset2.
+Radar-only results has higher RMSE values than Laser-only and both-sensor, which highlights the importance of lidar sensor information in kalman filters and moving objects estimations.
+NIS values in all cases stay bewteen 82-87%, which is a good indication that uncertainty of system is not over/under estimated.
+
