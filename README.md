@@ -33,188 +33,227 @@ Once the install for uWebSocketIO is complete, the main program can be built and
 
 #### Data 1
 
-RMSE Total:
+RMSE Both Sensors:
 <table style="width:100%">
-  <tbody>
+  <tbody border="1">
     <tr>
-      <th scope="row">A</th>
-      <td>b</td>
+        <td></td>
+        <td>px </td>
+        <td>py </td>
+        <td>vx </td>
+        <td>vy </td>
     </tr>
     <tr>
-      <th scope="row">C</th>
-      <td>d</td>
+      <th scope="row">UKF</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">EKF</th>
+      <td>0.0973</td>
+      <td>0.0855</td>
+      <td>0.4513</td>
+      <td>0.4399</td>
     </tr>
   </tbody>
 </table>
-<table style="width:100%">
-    <tr>
-        <td> UKF </td>
-        <td> EKF </td>
-    </tr>
-    <tr>
-        <tr>
-            <td>px </td>
-            <td>py </td>
-            <td>vx </td>
-            <td>vy </td>
-        </tr>
-        <tr>
-            <td>0.0973</td>
-            <td>0.0855</td>
-            <td>0.4513</td>
-            <td>0.4399</td>
-        </tr>
-    </tr>
-    <tr>
-        <tr>
-            <td>px </td>
-            <td>py </td>
-            <td>vx </td>
-            <td>vy </td>
-        </tr>
-        <tr>
-            <td>0.0973</td>
-            <td>0.0855</td>
-            <td>0.4513</td>
-            <td>0.4399</td>
-        </tr>
-    </tr>
-</table>
+
 
 RMSE Laser Only:
+
 <table style="width:100%">
-  <tr>
-    <td>px </td>
-    <td>py </td>
-    <td>vx </td>
-    <td>vy </td>
-  </tr>
-  <tr>
-    <td>0.1222</td>
-    <td>0.0984</td>
-    <td>0.5825</td>
-    <td>0.4567</td>
-  </tr>
+  <tbody border="1">
+    <tr>
+        <td></td>
+        <td>px </td>
+        <td>py </td>
+        <td>vx </td>
+        <td>vy </td>
+    </tr>
+    <tr>
+      <th scope="row">UKF</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">EKF</th>
+      <td>0.1222</td>
+      <td>0.0984</td>
+      <td>0.5825</td>
+      <td>0.4567</td>
+    </tr>
+  </tbody>
 </table>
+
 
 RMSE Radar Only:
 <table style="width:100%">
-  <tr>
-    <td>px </td>
-    <td>py </td>
-    <td>vx </td>
-    <td>vy </td>
-  </tr>
-  <tr>
-    <td>0.1909</td>
+  <tbody border="1">
+    <tr>
+        <td></td>
+        <td>px </td>
+        <td>py </td>
+        <td>vx </td>
+        <td>vy </td>
+    </tr>
+    <tr>
+      <th scope="row">UKF</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">EKF</th>
+      <td>0.1909</td>
     <td>0.2799</td>
     <td>0.4534</td>
     <td>0.6776</td>
-  </tr>
+    </tr>
+  </tbody>
 </table>
+
 
 <table style="width:100%">
   <tr>
-    <td>RMSE Total</td>
-    <td>RMSE Laser only</td>
-    <td>RMSE Radar only</td>
+    <td>Simulator Both</td>
+    <td>Simulator Laser only</td>
+    <td>Simulator Radar only</td>
   </tr>
   <tr>
-    <td><img src="./dataset1/rmse_total.png" width="350" height="200"/></td>
-    <td><img src="./dataset1/rmse_laser.png" width="350" height="200"/></td>
-    <td><img src="./dataset1/rmse_radar.png" width="350" height="200"/></td>
+    <td><img src="./images/both_dt1.png" width="350" height="200"/></td>
+    <td><img src="./images/laser_only_dt1.png" width="350" height="200"/></td>
+    <td><img src="./images/radar_only_dt1.png" width="350" height="200"/></td>
   </tr>
   <tr>
 <table>
 
 <table style="width:100%">
   <tr>
-    <td>Simulator Total</td>
-    <td>Simulator Laser only</td>
-    <td>Simulator Radar only</td>
+    <td>NIS Both</td>
+    <td>NIS Laser only</td>
+    <td>NIS Radar only</td>
   </tr>
   <tr>
-    <td><img src="./dataset1/sim_total.png" width="350" height="200"/></td>
-    <td><img src="./dataset1/sim_laser.png" width="350" height="200"/></td>
-    <td><img src="./dataset1/sim_radar.png" width="350" height="200"/></td>
+    <td><img src="./images/both_dt1_nis.png" width="350" height="200"/></td>
+    <td><img src="./images/laser_only_dt1_nis.png" width="350" height="200"/></td>
+    <td><img src="./images/radar_only_dt1_nis.png" width="350" height="200"/></td>
   </tr>
   <tr>
 <table>
 
 #### Data 2
 
-RMSE Total:
+RMSE Both Sensors:
+
 <table style="width:100%">
-  <tr>
-    <td>px </td>
-    <td>py </td>
-    <td>vx </td>
-    <td>vy </td>
-  </tr>
-  <tr>
-    <td>0.0726</td>
-    <td>0.0965</td>
-    <td>0.4216</td>
-    <td>0.4932</td>
-  </tr>
+  <tbody border="1">
+    <tr>
+        <td></td>
+        <td>px </td>
+        <td>py </td>
+        <td>vx </td>
+        <td>vy </td>
+    </tr>
+    <tr>
+      <th scope="row">UKF</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">EKF</th>
+      <td>0.0726</td>
+      <td>0.0965</td>
+      <td>0.4216</td>
+      <td>0.4932</td>
+    </tr>
+  </tbody>
 </table>
 
 RMSE Laser Only:
 <table style="width:100%">
-  <tr>
-    <td>px </td>
-    <td>py </td>
-    <td>vx </td>
-    <td>vy </td>
-  </tr>
-  <tr>
-    <td>0.0961</td>
-    <td>0.1003</td>
-    <td>0.5418</td>
-    <td>0.4640</td>
-  </tr>
+  <tbody border="1">
+    <tr>
+        <td></td>
+        <td>px </td>
+        <td>py </td>
+        <td>vx </td>
+        <td>vy </td>
+    </tr>
+    <tr>
+      <th scope="row">UKF</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">EKF</th>
+      <td>0.0961</td>
+      <td>0.1003</td>
+      <td>0.5418</td>
+      <td>0.4640</td>
+    </tr>
+  </tbody>
 </table>
 
 RMSE Radar Only:
 <table style="width:100%">
-  <tr>
-    <td>px </td>
-    <td>py </td>
-    <td>vx </td>
-    <td>vy </td>
-  </tr>
-  <tr>
-    <td>0.2256</td>
-    <td>0.2959</td>
-    <td>0.5879</td>
-    <td>0.7966</td>
-  </tr>
+  <tbody border="1">
+    <tr>
+        <td></td>
+        <td>px </td>
+        <td>py </td>
+        <td>vx </td>
+        <td>vy </td>
+    </tr>
+    <tr>
+      <th scope="row">UKF</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">EKF</th>
+      <td>0.2256</td>
+      <td>0.2959</td>
+      <td>0.5879</td>
+      <td>0.7966</td>
+    </tr>
+  </tbody>
 </table>
 
 <table style="width:100%">
   <tr>
-    <td>RMSE Total</td>
-    <td>RMSE Laser only</td>
-    <td>RMSE Radar only</td>
+    <td>Simulator Both</td>
+    <td>Simulator Laser only</td>
+    <td>Simulator Radar only</td>
   </tr>
   <tr>
-    <td><img src="./dataset2/rmse_total.png" width="350" height="200"/></td>
-    <td><img src="./dataset2/rmse_laser.png" width="350" height="200"/></td>
-    <td><img src="./dataset2/rmse_radar.png" width="350" height="200"/></td>
+    <td><img src="./images/both_dt2.png" width="350" height="200"/></td>
+    <td><img src="./images/laser_only_dt2.png" width="350" height="200"/></td>
+    <td><img src="./images/radar_only_dt2.png" width="350" height="200"/></td>
   </tr>
   <tr>
 <table>
 
 <table style="width:100%">
   <tr>
-    <td>Simulator Total</td>
-    <td>Simulator Laser only</td>
-    <td>Simulator Radar only</td>
+    <td>NIS Both</td>
+    <td>NIS Laser only</td>
+    <td>NIS Radar only</td>
   </tr>
   <tr>
-    <td><img src="./dataset2/sim_total.png" width="350" height="200"/></td>
-    <td><img src="./dataset2/sim_laser.png" width="350" height="200"/></td>
-    <td><img src="./dataset2/sim_radar.png" width="350" height="200"/></td>
+    <td><img src="./images/both_dt2_nis.png" width="350" height="200"/></td>
+    <td><img src="./images/laser_only_dt2_nis.png" width="350" height="200"/></td>
+    <td><img src="./images/radar_only_dt2_nis.png" width="350" height="200"/></td>
   </tr>
   <tr>
 <table>
