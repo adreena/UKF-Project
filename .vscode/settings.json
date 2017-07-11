@@ -1,9 +1,0 @@
-{
-  "files.associations": {
-    "cmath": "cpp",
-    "complex": "cpp",
-    "__tree": "cpp",
-    "bitset": "cpp",
-    "iostream": "cpp"
-  }
-}
