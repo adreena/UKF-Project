@@ -35,6 +35,18 @@ Once the install for uWebSocketIO is complete, the main program can be built and
 
 RMSE Total:
 <table style="width:100%">
+  <tbody>
+    <tr>
+      <th scope="row">A</th>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th scope="row">C</th>
+      <td>d</td>
+    </tr>
+  </tbody>
+</table>
+<table style="width:100%">
     <tr>
         <td> UKF </td>
         <td> EKF </td>
