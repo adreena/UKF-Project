@@ -5,7 +5,7 @@
 #include <math.h>
 #include "ukf.h"
 #include "tools.h"
-
+#define NIS_FILE_NAME "../radar_nis_output_file_dt2.csv"
 using namespace std;
 
 // for convenience
@@ -39,14 +39,15 @@ int main()
   vector<VectorXd> estimations;
   vector<VectorXd> ground_truth;
   ofstream nis_output_file_;
-  string nis_file_name = "../nis_output_file.csv";
+
+  string nis_file_name = NIS_FILE_NAME;
   nis_output_file_.open(nis_file_name);
   nis_output_file_ << "frame_counter,NIS" << "\n";
   nis_output_file_.close();
   int frame_counter = 0;
-  int temp_nis_counter = 0;
 
-  h.onMessage([&ukf,&tools,&estimations,&ground_truth, &nis_output_file_, &frame_counter, &temp_nis_counter](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  h.onMessage([&ukf,&tools,&estimations,&ground_truth, &nis_output_file_, &frame_counter](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) 
+  {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -54,8 +55,8 @@ int main()
     {
 
       auto s = hasData(std::string(data));
-      if (s != "") {
-      	
+      if (s != "") 
+      {
         auto j = json::parse(s);
 
         std::string event = j[0].get<std::string>();
@@ -67,107 +68,106 @@ int main()
           
           MeasurementPackage meas_package;
           istringstream iss(sensor_measurment);
-    	  long long timestamp;
-    	  // reads first element from the current line
-    	  string sensor_type;
-    	  iss >> sensor_type;
-    	  if (sensor_type.compare("L") == 0) {
-      	  		meas_package.sensor_type_ = MeasurementPackage::LASER;
-          		meas_package.raw_measurements_ = VectorXd(2);
-          		float px;
-      	  		float py;
-          		iss >> px;
-          		iss >> py;
-          		meas_package.raw_measurements_ << px, py;
-          		iss >> timestamp;
-          		meas_package.timestamp_ = timestamp;
-          } else if (sensor_type.compare("R") == 0) {
-
-      	  		meas_package.sensor_type_ = MeasurementPackage::RADAR;
-          		meas_package.raw_measurements_ = VectorXd(3);
-          		float ro;
-      	  		float theta;
-      	  		float ro_dot;
-          		iss >> ro;
-          		iss >> theta;
-          		iss >> ro_dot;
-          		meas_package.raw_measurements_ << ro,theta, ro_dot;
-          		iss >> timestamp;
-          		meas_package.timestamp_ = timestamp;
+    	    long long timestamp;
+          // reads first element from the current line
+          string sensor_type;
+          iss >> sensor_type;
+          if (sensor_type.compare("L") == 0) 
+          {
+              meas_package.sensor_type_ = MeasurementPackage::LASER;
+              meas_package.raw_measurements_ = VectorXd(2);
+              float px;
+              float py;
+              iss >> px;
+              iss >> py;
+              meas_package.raw_measurements_ << px, py;
+              iss >> timestamp;
+              meas_package.timestamp_ = timestamp;
+            } 
+          else if (sensor_type.compare("R") == 0) 
+          {
+              meas_package.sensor_type_ = MeasurementPackage::RADAR;
+              meas_package.raw_measurements_ = VectorXd(3);
+              float ro;
+              float theta;
+              float ro_dot;
+              iss >> ro;
+              iss >> theta;
+              iss >> ro_dot;
+              meas_package.raw_measurements_ << ro,theta, ro_dot;
+              iss >> timestamp;
+              meas_package.timestamp_ = timestamp;
           }
-        float x_gt;
-    	  float y_gt;
-    	  float vx_gt;
-    	  float vy_gt;
-    	  iss >> x_gt;
-    	  iss >> y_gt;
-    	  iss >> vx_gt;
-    	  iss >> vy_gt;
-    	  VectorXd gt_values(4);
-    	  gt_values(0) = x_gt;
-    	  gt_values(1) = y_gt; 
-    	  gt_values(2) = vx_gt;
-    	  gt_values(3) = vy_gt;
-    	  ground_truth.push_back(gt_values);
-        
-        
-          //Call ProcessMeasurment(meas_package) for Kalman filter
-    	  ukf.ProcessMeasurement(meas_package);    	  
-        
-        cout<< ukf.NIS_<<endl;
-        
-        nis_output_file_.open("../nis_output_file.csv",std::ios_base::app);
+          if ( (ukf.use_laser_ && sensor_type.compare("L") == 0 ) || (ukf.use_radar_ && sensor_type.compare("R") == 0 ))
+          {
+              float x_gt;
+              float y_gt;
+              float vx_gt;
+              float vy_gt;
+              iss >> x_gt;
+              iss >> y_gt;
+              iss >> vx_gt;
+              iss >> vy_gt;
+              VectorXd gt_values(4);
+              gt_values(0) = x_gt;
+              gt_values(1) = y_gt; 
+              gt_values(2) = vx_gt;
+              gt_values(3) = vy_gt;
+              ground_truth.push_back(gt_values);
+            
+              //Call ProcessMeasurment(meas_package) for Kalman filter
+              ukf.ProcessMeasurement(meas_package);    	  
+              
+              nis_output_file_.open(NIS_FILE_NAME,std::ios_base::app);
+              
+              nis_output_file_ << frame_counter <<","<< ukf.NIS_ << "\n";
+              frame_counter++;
+              nis_output_file_.close();
+              
+              //Push the current estimated x,y positon from the Kalman filter's state vector
 
-        nis_output_file_ << frame_counter <<","<< ukf.NIS_ << "\n";
-        if(ukf.NIS_ > 7.85)
-          temp_nis_counter++;
+              VectorXd estimate(4);
 
-        cout << "High NIS: "<< temp_nis_counter<<endl;
-        frame_counter++;
-        float percent = 100*temp_nis_counter/frame_counter;
-        cout<< "%%"<<percent<<" of NIS above 7.85"<<endl;
-        nis_output_file_.close();
-        
-    	  //Push the current estimated x,y positon from the Kalman filter's state vector
+              double p_x = ukf.x_(0);
+              double p_y = ukf.x_(1);
+              double v  = ukf.x_(2);
+              double yaw = ukf.x_(3);
 
-    	  VectorXd estimate(4);
+              double v1 = cos(yaw)*v;
+              double v2 = sin(yaw)*v;
 
-    	  double p_x = ukf.x_(0);
-    	  double p_y = ukf.x_(1);
-    	  double v  = ukf.x_(2);
-    	  double yaw = ukf.x_(3);
+              estimate(0) = p_x;
+              estimate(1) = p_y;
+              estimate(2) = v1;
+              estimate(3) = v2;
+              
+              estimations.push_back(estimate);
 
-    	  double v1 = cos(yaw)*v;
-    	  double v2 = sin(yaw)*v;
+              VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
 
-    	  estimate(0) = p_x;
-    	  estimate(1) = p_y;
-    	  estimate(2) = v1;
-    	  estimate(3) = v2;
-    	  
-    	  estimations.push_back(estimate);
-
-    	  VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
-
-          json msgJson;
-          msgJson["estimate_x"] = p_x;
-          msgJson["estimate_y"] = p_y;
-          msgJson["rmse_x"] =  RMSE(0);
-          msgJson["rmse_y"] =  RMSE(1);
-          msgJson["rmse_vx"] = RMSE(2);
-          msgJson["rmse_vy"] = RMSE(3);
-          auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
-          // std::cout << msg << std::endl;
-          ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-	  
+              json msgJson;
+              msgJson["estimate_x"] = p_x;
+              msgJson["estimate_y"] = p_y;
+              msgJson["rmse_x"] =  RMSE(0);
+              msgJson["rmse_y"] =  RMSE(1);
+              msgJson["rmse_vx"] = RMSE(2);
+              msgJson["rmse_vy"] = RMSE(3);
+              auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
+              // std::cout << msg << std::endl;
+              ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+          }
+          else{
+            std::string msg = "42[\"manual\",{}]";
+            ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+          }
         }
-      } else {
-        
+      } 
+      else 
+      {
         std::string msg = "42[\"manual\",{}]";
         ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
       }
     }
-
   });
 
   // We don't need this since we're not using HTTP but if it's removed the program

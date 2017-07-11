@@ -86,58 +86,57 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   Complete this function! Make sure you switch between lidar and radar
   measurements.
   */
-  if(!is_initialized_){
-      MatrixXd I = MatrixXd::Identity(n_x_, n_x_);
-      P_ = I ;
-      float th = 0.001;
-      n_sig_ = 2* n_aug_ +1;
-      if(meas_package.sensor_type_ == MeasurementPackage::LASER){
+    if(!is_initialized_){
+        MatrixXd I = MatrixXd::Identity(n_x_, n_x_);
+        P_ = I ;
+        float th = 0.001;
+        n_sig_ = 2* n_aug_ +1;
+        if(meas_package.sensor_type_ == MeasurementPackage::LASER){
+          
+          if(fabs(meas_package.raw_measurements_(0)) < th && fabs(meas_package.raw_measurements_(1)) <th)
+            x_ << th, th, 0, 0, 0;
+          else
+            x_ << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), 0, 0, 0;
+        }
+        else if (meas_package.sensor_type_ == MeasurementPackage::RADAR){
+          double rho = meas_package.raw_measurements_(0);
+          double phi = meas_package.raw_measurements_(1);
+          double rho_dot = meas_package.raw_measurements_(2);
+
+          double px = rho * cos(phi);
+          double py = rho * sin(phi);
+          double vx = rho_dot * cos(phi);
+          double vy = rho_dot * sin(phi); 
+          double v = sqrt(vx*vx + vy*vy);
+          double yaw = 0;
+          double yaw_rate = 0;
+          x_ << px, py, v, yaw, yaw_rate;
+        }
+        weights_ = VectorXd(n_sig_);
+        weights_.fill(0.5/(lambda_+ n_aug_));
+        weights_(0) = lambda_/(lambda_ + n_aug_);
+
+        time_us_ = meas_package.timestamp_;
+        is_initialized_ = true;
         
-        if(fabs(meas_package.raw_measurements_(0)) < th && fabs(meas_package.raw_measurements_(1)) <th)
-          x_ << th, th, 0, 0, 0;
-        else
-          x_ << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), 0, 0, 0;
-      }
-      else if (meas_package.sensor_type_ == MeasurementPackage::RADAR){
-        double rho = meas_package.raw_measurements_(0);
-        double phi = meas_package.raw_measurements_(1);
-        double rho_dot = meas_package.raw_measurements_(2);
+        return ;
+    }
 
-        double px = rho * cos(phi);
-        double py = rho * sin(phi);
-        double vx = rho_dot * cos(phi);
-        double vy = rho_dot * sin(phi); 
-        double v = sqrt(vx*vx + vy*vy);
-        double yaw = 0;
-        double yaw_rate = 0;
-        x_ << px, py, v, yaw, yaw_rate;
-      }
-      weights_ = VectorXd(n_sig_);
-      weights_.fill(0.5/(lambda_+ n_aug_));
-      weights_(0) = lambda_/(lambda_ + n_aug_);
+    //convert to second
+    double delta_t = (meas_package.timestamp_ - time_us_)/ 1000000.0;
+    time_us_ = meas_package.timestamp_;
+    
 
-      time_us_ = meas_package.timestamp_;
-      is_initialized_ = true;
-      
-      return ;
-  }
+    //Predict
+    Prediction(delta_t);
 
-  //convert to second
-  double delta_t = (meas_package.timestamp_ - time_us_)/ 1000000.0;
-  time_us_ = meas_package.timestamp_;
-  
-
-  //Predict
-  cout<<"-Sensor: "<< meas_package.sensor_type_<<endl;
-  Prediction(delta_t);
-
-  //Update
-  if(meas_package.sensor_type_ == MeasurementPackage::LASER){
-    UpdateLidar(meas_package);
-  }
-  else if (meas_package.sensor_type_ == MeasurementPackage::RADAR){
-    UpdateRadar(meas_package);
-  }
+    //Update
+    if(meas_package.sensor_type_ == MeasurementPackage::LASER){
+      UpdateLidar(meas_package);
+    }
+    else if (meas_package.sensor_type_ == MeasurementPackage::RADAR){
+      UpdateRadar(meas_package);
+    }
 }
 
 /**
@@ -192,7 +191,6 @@ void UKF::Prediction(double delta_t) {
     double nu_a = Xsig_aug(5,i);
     double nu_yawdd = Xsig_aug(6,i);
 
-    // cout<< "Pred: " <<px <<"**"<< py <<"**"<< v <<"**"<< yaw <<"**"<< yaw_d <<"**"<<nu_a<<"**"<<nu_yawdd<<endl;
     float th = 0.001;
     double yaw_d_delta_t = yaw_d * delta_t;
     if(fabs(yaw_d) > th){
@@ -363,6 +361,4 @@ void UKF::UpdateHelper(MeasurementPackage meas_package){
       while(z_diff(1) < -M_PI) z_diff(1) += 2*M_PI;
   }
   NIS_ = z_diff.transpose()*S_pred.inverse()*z_diff;
-
-  cout<<"NIS: "<<NIS_<<endl;
 }
