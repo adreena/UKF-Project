@@ -144,6 +144,11 @@ RMSE Radar Only:
     <td><img src="./images/radar_only_dt1_nis.png" width="350" height="200"/></td>
   </tr>
   <tr>
+    <td>87% (0.357-7.85), 3% above 7.85</td>
+    <td>86% (0.357-7.85), 2.5% above 7.85</td>
+    <td>83% (0.357-7.85), 10% above 7.85</td>
+  </tr>
+  <tr>
 <table>
 
 #### Data 2
@@ -246,9 +251,9 @@ RMSE Radar Only:
 
 <table style="width:100%">
   <tr>
-    <td>NIS Both (84.13%)</td>
-    <td>NIS Laser only (81.92%)</td>
-    <td>NIS Radar only (86.34%)</td>
+    <td>NIS Both</td>
+    <td>NIS Laser only</td>
+    <td>NIS Radar only</td>
   </tr>
   <tr>
     <td><img src="./images/both_dt2_nis.png" width="350" height="200"/></td>
@@ -256,6 +261,10 @@ RMSE Radar Only:
     <td><img src="./images/radar_only_dt2_nis.png" width="350" height="200"/></td>
   </tr>
   <tr>
+    <td>84% (0.357-7.85), 5% above 7.85</td>
+    <td>82% (0.357-7.85), 3% above 7.85</td>
+    <td>87% (0.357-7.85), 3% above 7.85</td>
+  </tr>
 <table>
 
 #### Processing noises used in this project:
@@ -275,7 +284,7 @@ RMSE Radar Only:
 #### UKF Results:
 UKF achieved approximately better results in dataset1 (~0.1) comparing to EKF, however results are pretty much similar to EKF in dataset2.
 
-Radar-only results has higher RMSE values than Laser-only and both-sensor, which highlights the importance of lidar sensor information in kalman filters and moving objects estimations.
+Radar-only results has higher RMSE values than Laser-only and both-sensor, which highlights the understimated uncertainty in moving object estimations in the absence of lidar sensor information.
 
 NIS values in all cases stay bewteen 82-87%, which is a good indication that uncertainty of system is not over/under estimated.
 
