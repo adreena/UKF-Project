@@ -274,6 +274,8 @@ RMSE Radar Only:
 
 #### UKF Results:
 UKF achieved approximately better results in dataset1 (~0.1) comparing to EKF, however results are pretty much similar to EKF in dataset2.
+
 Radar-only results has higher RMSE values than Laser-only and both-sensor, which highlights the importance of lidar sensor information in kalman filters and moving objects estimations.
+
 NIS values in all cases stay bewteen 82-87%, which is a good indication that uncertainty of system is not over/under estimated.
 
