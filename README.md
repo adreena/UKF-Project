@@ -110,9 +110,9 @@ RMSE Radar Only:
     <tr>
       <th scope="row">EKF</th>
       <td>0.1909</td>
-    <td>0.2799</td>
-    <td>0.4534</td>
-    <td>0.6776</td>
+      <td>0.2799</td>
+      <td>0.4534</td>
+      <td>0.6776</td>
     </tr>
   </tbody>
 </table>
@@ -134,9 +134,9 @@ RMSE Radar Only:
 
 <table style="width:100%">
   <tr>
-    <td>NIS Both</td>
-    <td>NIS Laser only</td>
-    <td>NIS Radar only</td>
+    <td>NIS Both (87.37%)</td>
+    <td>NIS Laser only (86.0%)</td>
+    <td>NIS Radar only (83.53%)</td>
   </tr>
   <tr>
     <td><img src="./images/both_dt1_nis.png" width="350" height="200"/></td>
@@ -233,7 +233,7 @@ RMSE Radar Only:
 <table style="width:100%">
   <tr>
     <td>Simulator Both</td>
-    <td>Simulator Laser only</td>
+    <td>Simulator Laser only (81.92%)</td>
     <td>Simulator Radar only</td>
   </tr>
   <tr>
@@ -246,9 +246,9 @@ RMSE Radar Only:
 
 <table style="width:100%">
   <tr>
-    <td>NIS Both</td>
-    <td>NIS Laser only</td>
-    <td>NIS Radar only</td>
+    <td>NIS Both (84.13%)</td>
+    <td>NIS Laser only (81.92%)</td>
+    <td>NIS Radar only (86.34%)</td>
   </tr>
   <tr>
     <td><img src="./images/both_dt2_nis.png" width="350" height="200"/></td>
