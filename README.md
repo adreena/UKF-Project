@@ -14,6 +14,7 @@ The goals / steps of this project are the following:
 Goals:
 * Utilizing kalman filter to estimate the state of a moving object with lidar and radar mesaurments
 * Achieving low RMSE values  
+* NIS 5% below 7.85
 * NIS be between 0.35 and 7.81 in at least 80% of all radar update steps
 
 ### Build & Run Instruction
@@ -45,10 +46,10 @@ RMSE Both Sensors:
     </tr>
     <tr>
       <th scope="row">UKF</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>0.0883</td>
+      <td>0.0938</td>
+      <td>0.3791</td>
+      <td>0.2794</td>
     </tr>
     <tr>
       <th scope="row">EKF</th>
@@ -74,10 +75,10 @@ RMSE Laser Only:
     </tr>
     <tr>
       <th scope="row">UKF</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>0.1138</td>
+      <td>0.0952</td>
+      <td>0.6313</td>
+      <td>0.2643</td>
     </tr>
     <tr>
       <th scope="row">EKF</th>
@@ -88,7 +89,6 @@ RMSE Laser Only:
     </tr>
   </tbody>
 </table>
-
 
 RMSE Radar Only:
 <table style="width:100%">
@@ -102,10 +102,10 @@ RMSE Radar Only:
     </tr>
     <tr>
       <th scope="row">UKF</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>0.1747</td>
+      <td>0.2646</td>
+      <td>0.4365</td>
+      <td>0.9429</td>
     </tr>
     <tr>
       <th scope="row">EKF</th>
@@ -161,10 +161,10 @@ RMSE Both Sensors:
     </tr>
     <tr>
       <th scope="row">UKF</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>0.0871</td>
+      <td>0.0940</td>
+      <td>0.6393</td>
+      <td>0.3240</td>
     </tr>
     <tr>
       <th scope="row">EKF</th>
@@ -188,10 +188,10 @@ RMSE Laser Only:
     </tr>
     <tr>
       <th scope="row">UKF</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>0.1072</td>
+      <td>0.0860</td>
+      <td>0.5794</td>
+      <td>0.2918</td>
     </tr>
     <tr>
       <th scope="row">EKF</th>
@@ -215,10 +215,10 @@ RMSE Radar Only:
     </tr>
     <tr>
       <th scope="row">UKF</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>0.1973</td>
+      <td>0.2548</td>
+      <td>0.8227</td>
+      <td>0.5441</td>
     </tr>
     <tr>
       <th scope="row">EKF</th>
