@@ -6,6 +6,7 @@ using namespace std;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::vector;
+#define THRESHOLD  0.001
 
 /**
  * Initializes Unscented Kalman filter
@@ -89,12 +90,12 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     if(!is_initialized_){
         MatrixXd I = MatrixXd::Identity(n_x_, n_x_);
         P_ = I ;
-        float th = 0.001;
+        
         n_sig_ = 2* n_aug_ +1;
         if(meas_package.sensor_type_ == MeasurementPackage::LASER){
           
-          if(fabs(meas_package.raw_measurements_(0)) < th && fabs(meas_package.raw_measurements_(1)) <th)
-            x_ << th, th, 0, 0, 0;
+          if(fabs(meas_package.raw_measurements_(0)) < THRESHOLD && fabs(meas_package.raw_measurements_(1)) <THRESHOLD)
+            x_ << THRESHOLD, THRESHOLD, 0, 0, 0;
           else
             x_ << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), 0, 0, 0;
         }
@@ -191,9 +192,9 @@ void UKF::Prediction(double delta_t) {
     double nu_a = Xsig_aug(5,i);
     double nu_yawdd = Xsig_aug(6,i);
 
-    float th = 0.001;
+ 
     double yaw_d_delta_t = yaw_d * delta_t;
-    if(fabs(yaw_d) > th){
+    if(fabs(yaw_d) > THRESHOLD){
       px = px + (v/yaw_d) * (sin(yaw +  yaw_d_delta_t) - sin(yaw));
       py = py + (v/yaw_d) * (cos(yaw) - cos(yaw + yaw_d_delta_t));  
     }
@@ -290,8 +291,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     double yaw = Xsig_pred_(3,i);
 
     double rho = sqrt(pow(px,2) + pow(py,2));
-    float th = 0.001;
-    if(fabs(rho) < th) rho = th;
+    
+    if(fabs(rho) < THRESHOLD) rho = THRESHOLD;
 
     double phi = atan2(py,px);
     Zsig_pred_(0,i) = rho;
